@@ -1,12 +1,11 @@
 package com.pz.offersservice.offers.controller;
 
-import com.pz.offersservice.offers.dto.OfferFetchDto;
+import com.pz.offersservice.offers.dto.OfferBriefDTO;
+import com.pz.offersservice.offers.dto.OfferDetailsDTO;
 import com.pz.offersservice.offers.dto.OfferPostDto;
-import com.pz.offersservice.offers.model.Offer;
 import com.pz.offersservice.offers.service.OffersService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -22,15 +21,16 @@ public class OffersController {
 
 
     @GetMapping
-    public Collection<OfferFetchDto> getOffers(@RequestParam(defaultValue = "20") Integer pageLimit,
-                                               @RequestParam(defaultValue = "0") Integer pageOffset,
-                                               @RequestParam(defaultValue = "desc(creationTimestamp)") List<String> orderingCriteria) {
-        return offersService.getOffers(pageLimit, pageOffset, orderingCriteria);
+    public List<OfferBriefDTO> getOffers(@RequestParam(defaultValue = "20") Integer pageLimit,
+                                         @RequestParam(defaultValue = "0") Integer pageOffset,
+                                         @RequestParam(defaultValue = "desc(creation_timestamp)") List<String> orderingCriteria,
+                                         @RequestParam(defaultValue = "") List<String> filteringCriteria) {
+        return offersService.getOffers(pageLimit, pageOffset, orderingCriteria, filteringCriteria);
     }
 
 
     @GetMapping("/{id}")
-    public Offer getOfferDetails(@PathVariable("id") Long offerId) {
+    public OfferDetailsDTO getOfferDetails(@PathVariable("id") Long offerId) {
         return offersService.getOfferDetails(offerId);
     }
 
@@ -42,11 +42,11 @@ public class OffersController {
     }
 
 
-    @PostMapping("/{id}")
-    public String updateOffer(@PathVariable("id") Long offerId, @RequestBody OfferPostDto offerPostDto) {
-        offersService.updateOffer(offerId, offerPostDto);
-        return "OK";
-    }
+//    @PostMapping("/{id}")
+//    public String updateOffer(@PathVariable("id") Long offerId, @RequestBody OfferPostDto offerPostDto) {
+//        offersService.updateOffer(offerId, offerPostDto);
+//        return "OK";
+//    }
 
 
     @DeleteMapping("/{id}")

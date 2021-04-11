@@ -2,20 +2,26 @@ package com.pz.offersservice.offers.dto;
 
 import java.util.List;
 
-public class OfferPostDto {
+public class OfferDetailsDTO {
 
+    private final Long id;
     private final Long ownerId;
     private final String title;
     private final String description;
-    private final List<Long> tagIds;
     private final List<Tier> tiers;
+    private final List<Tag> tags;
 
-    public OfferPostDto(Long ownerId, String title, String description, List<Long> tagIds, List<Tier> tiers) {
+    public OfferDetailsDTO(Long id, Long ownerId, String title, String description, List<Tier> tiers, List<Tag> tags) {
+        this.id = id;
         this.ownerId = ownerId;
         this.title = title;
         this.description = description;
-        this.tagIds = tagIds;
         this.tiers = tiers;
+        this.tags = tags;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Long getOwnerId() {
@@ -30,11 +36,11 @@ public class OfferPostDto {
         return description;
     }
 
-    public List<Long> getTagIds() {
-        return tagIds;
-    }
-
     public List<Tier> getTiers() {
         return tiers;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
     }
 }

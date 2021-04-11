@@ -32,6 +32,3 @@ CREATE TABLE tiers (
     description TEXT,
     price NUMERIC
 );
-
-INSERT INTO tags VALUES (1, 'backend');
-INSERT INTO tags VALUES (2, 'frontend');
