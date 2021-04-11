@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.dto;
+package com.pz.offersservice.tags.entity;
 
 public class Tag {
 
@@ -17,4 +17,5 @@ public class Tag {
     public String getValue() {
         return value;
     }
+
 }

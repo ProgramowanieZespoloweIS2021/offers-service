@@ -1,11 +1,11 @@
 package com.pz.offersservice.offers.dao;
 
 import com.pz.offersservice.offers.dto.OfferBriefDTO;
-import com.pz.offersservice.offers.dto.OfferDetailsDTO;
-import com.pz.offersservice.offers.dto.OfferPostDto;
+import com.pz.offersservice.offers.dto.OfferPostDTO;
+import com.pz.offersservice.offers.entity.Offer;
 import com.pz.offersservice.offers.service.OrderingCriteriaFactory;
 import org.jooq.*;
-import org.jooq.Record;
+import org.jooq.exception.NoDataFoundException;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -14,16 +14,19 @@ import java.util.List;
 
 import static org.jooq.impl.DSL.*;
 
+
 @Component
 public class OffersDaoJOOQ implements OffersDao {
 
     private final DSLContext create;
     private final OrderingCriteriaFactory orderingCriteriaFactory;
 
+
     public OffersDaoJOOQ(DSLContext context, OrderingCriteriaFactory orderingCriteriaFactory) {
         this.create = context;
         this.orderingCriteriaFactory = orderingCriteriaFactory;
     }
+
 
     @Override
     public List<OfferBriefDTO> getOffers(Integer pageLimit, Integer pageOffset, List<String> orderingCriteria) {
@@ -71,8 +74,8 @@ public class OffersDaoJOOQ implements OffersDao {
 
 
     @Override
-    public void createOffer(OfferPostDto offerPostDto) {
-        Record insertedOfferRecord = create.insertInto(
+    public Long createOffer(OfferPostDTO offerPostDto) {
+        return create.insertInto(
                 table("offers"),
                 field("owner_id"),
                 field("title"),
@@ -81,66 +84,25 @@ public class OffersDaoJOOQ implements OffersDao {
                 field("is_archived")
         )
                 .values(offerPostDto.getOwnerId(), offerPostDto.getTitle(), offerPostDto.getDescription(), LocalDateTime.now(), false)
-                .returningResult(field("id"))
-                .fetchOne();
-
-        for(var tagId: offerPostDto.getTagIds()) {
-            create.insertInto(
-                    table("offers_tags"),
-                    field("offer_id"),
-                    field("tag_id")
-            ).values(insertedOfferRecord.getValue("id"), tagId)
-                    .execute();
-        }
-
-        for(var tier: offerPostDto.getTiers()) {
-            create.insertInto(
-                    table("tiers"),
-                    field("offer_id"),
-                    field("title"),
-                    field("description"),
-                    field("price")
-            ).values(insertedOfferRecord.getValue("id"), tier.getTitle(), tier.getDescription(), tier.getPrice())
-                    .execute();
-        }
-
+                .returning(field("id"))
+                .fetchOptional()
+                .orElseThrow(() -> new NoDataFoundException("Could not create offer."))
+                .into(Long.class);
     }
 
 
     @Override
-    public OfferDetailsDTO getOfferDetails(Long offerId) {
-
-        Field<?> tags = create
-                .select(jsonArrayAgg(jsonObject(
-                        field("tags.id").as("id"),
-                        field("tags.value").as("value"))))
-                .from(table("tags"))
-                .join(table("offers_tags"))
-                .on(field("tags.id").eq(field("offers_tags.tag_id")))
-                .where(field("offers_tags.offer_id").eq(field("offers.id")))
-                .asField("tags");
-
-        Field<?> tiers = create
-                .select(jsonArrayAgg(jsonObject(
-                        field("tiers.id").as("id"),
-                        field("tiers.title").as("title"),
-                        field("tiers.description").as("description"),
-                        field("tiers.price").as("price"))))
-                .from(table("tiers"))
-                .where(field("tiers.offer_id").eq(field("offers.id")))
-                .asField("tiers");
-
+    public Offer getOffer(Long offerId) {
         return create.select(
-                field("id").cast(Long.class),
-                field("owner_id").cast(Long.class),
-                field("title").cast(String.class),
-                field("description").cast(String.class),
-                tiers,
-                tags // TODO: fix this
+                field("id"),
+                field("owner_id"),
+                field("title"),
+                field("description"),
+                field("creation_timestamp").cast(LocalDateTime.class)
         )
                 .from(table("offers"))
                 .where(field("id").eq(offerId))
-                .fetchAnyInto(OfferDetailsDTO.class);
+                .fetchAnyInto(Offer.class);
     }
 
 }

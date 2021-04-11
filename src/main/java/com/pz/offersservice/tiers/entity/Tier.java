@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.dto;
+package com.pz.offersservice.tiers.entity;
 
 import java.math.BigDecimal;
 
@@ -31,4 +31,5 @@ public class Tier {
     public BigDecimal getPrice() {
         return price;
     }
+
 }

@@ -1,8 +1,10 @@
 package com.pz.offersservice.offers.dto;
 
+import com.pz.offersservice.tiers.entity.Tier;
+
 import java.util.List;
 
-public class OfferPostDto {
+public class OfferPostDTO {
 
     private final Long ownerId;
     private final String title;
@@ -10,7 +12,7 @@ public class OfferPostDto {
     private final List<Long> tagIds;
     private final List<Tier> tiers;
 
-    public OfferPostDto(Long ownerId, String title, String description, List<Long> tagIds, List<Tier> tiers) {
+    public OfferPostDTO(Long ownerId, String title, String description, List<Long> tagIds, List<Tier> tiers) {
         this.ownerId = ownerId;
         this.title = title;
         this.description = description;

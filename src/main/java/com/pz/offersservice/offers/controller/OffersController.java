@@ -2,8 +2,9 @@ package com.pz.offersservice.offers.controller;
 
 import com.pz.offersservice.offers.dto.OfferBriefDTO;
 import com.pz.offersservice.offers.dto.OfferDetailsDTO;
-import com.pz.offersservice.offers.dto.OfferPostDto;
+import com.pz.offersservice.offers.dto.OfferPostDTO;
 import com.pz.offersservice.offers.service.OffersService;
+import com.pz.offersservice.tags.entity.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +24,8 @@ public class OffersController {
     @GetMapping
     public List<OfferBriefDTO> getOffers(@RequestParam(defaultValue = "20") Integer pageLimit,
                                          @RequestParam(defaultValue = "0") Integer pageOffset,
-                                         @RequestParam(defaultValue = "desc(creation_timestamp)") List<String> orderingCriteria,
-                                         @RequestParam(defaultValue = "") List<String> filteringCriteria) {
-        return offersService.getOffers(pageLimit, pageOffset, orderingCriteria, filteringCriteria);
+                                         @RequestParam(defaultValue = "desc(creation_timestamp)") List<String> orderingCriteria) {
+        return offersService.getOffers(pageLimit, pageOffset, orderingCriteria);
     }
 
 
@@ -36,23 +36,27 @@ public class OffersController {
 
 
     @PostMapping
-    public String addOffer(@RequestBody OfferPostDto offerPostDto) {
-        offersService.addOffer(offerPostDto);
-        return "OK";
+    public Long addOffer(@RequestBody OfferPostDTO offerPostDto) {
+        return offersService.addOffer(offerPostDto);
     }
 
 
-//    @PostMapping("/{id}")
-//    public String updateOffer(@PathVariable("id") Long offerId, @RequestBody OfferPostDto offerPostDto) {
-//        offersService.updateOffer(offerId, offerPostDto);
-//        return "OK";
-//    }
+    @PostMapping("/{id}")
+    public Long updateOffer(@PathVariable("id") Long offerId, @RequestBody OfferPostDTO offerPostDto) {
+        return offersService.updateOffer(offerId, offerPostDto);
+    }
 
 
     @DeleteMapping("/{id}")
-    public String deleteOffer(@PathVariable("id") Long offerId) {
+    public Long deleteOffer(@PathVariable("id") Long offerId) {
         offersService.deleteOffer(offerId);
-        return "OK";
+        return offerId;
+    }
+
+
+    @GetMapping("/tags")
+    public List<Tag> getTags() {
+        return offersService.getTags();
     }
 
 }
