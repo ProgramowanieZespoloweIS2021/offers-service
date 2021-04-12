@@ -13,16 +13,15 @@ CREATE TABLE offers (
 );
 
 CREATE TABLE tags (
-  id SERIAL PRIMARY KEY,
-  value TEXT
+    name TEXT PRIMARY KEY
 );
 
 CREATE TABLE offers_tags (
     offer_id SERIAL NOT NULL,
-    tag_id SERIAL NOT NULL,
-    PRIMARY KEY(offer_id, tag_id),
+    tag_name TEXT NOT NULL,
+    PRIMARY KEY(offer_id, tag_name),
     CONSTRAINT FK_OFFER FOREIGN KEY (offer_id) REFERENCES offers(id),
-    CONSTRAINT FK_TAG FOREIGN KEY (tag_id) REFERENCES tags(id)
+    CONSTRAINT FK_TAG FOREIGN KEY (tag_name) REFERENCES tags(name)
 );
 
 CREATE TABLE tiers (

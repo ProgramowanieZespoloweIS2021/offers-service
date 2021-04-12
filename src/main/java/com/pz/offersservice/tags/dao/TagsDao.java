@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TagsDao {
 
-    void associateTagsWithOffer(List<Long> tagsIds, Long offerId);
+    void associateTagsWithOffer(List<String> tags, Long offerId);
 
     List<Tag> getTags();
 

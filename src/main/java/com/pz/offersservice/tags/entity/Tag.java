@@ -2,20 +2,13 @@ package com.pz.offersservice.tags.entity;
 
 public class Tag {
 
-    private final Long id;
-    private final String value;
+    private final String name;
 
-    public Tag(Long id, String value) {
-        this.id = id;
-        this.value = value;
+    public Tag(String name) {
+        this.name = name;
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
-
-    public String getValue() {
-        return value;
-    }
-
 }

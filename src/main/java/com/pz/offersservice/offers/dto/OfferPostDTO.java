@@ -9,14 +9,14 @@ public class OfferPostDTO {
     private final Long ownerId;
     private final String title;
     private final String description;
-    private final List<Long> tagIds;
+    private final List<String> tags;
     private final List<Tier> tiers;
 
-    public OfferPostDTO(Long ownerId, String title, String description, List<Long> tagIds, List<Tier> tiers) {
+    public OfferPostDTO(Long ownerId, String title, String description, List<String> tags, List<Tier> tiers) {
         this.ownerId = ownerId;
         this.title = title;
         this.description = description;
-        this.tagIds = tagIds;
+        this.tags = tags;
         this.tiers = tiers;
     }
 
@@ -32,8 +32,8 @@ public class OfferPostDTO {
         return description;
     }
 
-    public List<Long> getTagIds() {
-        return tagIds;
+    public List<String> getTags() {
+        return tags;
     }
 
     public List<Tier> getTiers() {

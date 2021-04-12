@@ -24,8 +24,9 @@ public class OffersController {
     @GetMapping
     public List<OfferBriefDTO> getOffers(@RequestParam(defaultValue = "20") Integer pageLimit,
                                          @RequestParam(defaultValue = "0") Integer pageOffset,
-                                         @RequestParam(defaultValue = "desc(creation_timestamp)") List<String> orderingCriteria) {
-        return offersService.getOffers(pageLimit, pageOffset, orderingCriteria);
+                                         @RequestParam(defaultValue = "desc(creation_timestamp)") List<String> orderingCriteria,
+                                         @RequestParam(defaultValue = "") List<String> tags) {
+        return offersService.getOffers(pageLimit, pageOffset, orderingCriteria, tags);
     }
 
 

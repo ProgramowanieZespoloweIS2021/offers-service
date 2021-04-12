@@ -9,13 +9,15 @@ public class Offer {
     private final String title;
     private final String description;
     private final LocalDateTime creationTimestamp;
+    private final Boolean isArchived;
 
-    public Offer(Long id, Long ownerId, String title, String description, LocalDateTime creationTimestamp) {
+    public Offer(Long id, Long ownerId, String title, String description, LocalDateTime creationTimestamp, Boolean isArchived) {
         this.id = id;
         this.ownerId = ownerId;
         this.title = title;
         this.description = description;
         this.creationTimestamp = creationTimestamp;
+        this.isArchived = isArchived;
     }
 
     public Long getId() {
@@ -36,5 +38,9 @@ public class Offer {
 
     public LocalDateTime getCreationTimestamp() {
         return creationTimestamp;
+    }
+
+    public Boolean getArchived() {
+        return isArchived;
     }
 }

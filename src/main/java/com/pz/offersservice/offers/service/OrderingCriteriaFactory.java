@@ -1,6 +1,5 @@
 package com.pz.offersservice.offers.service;
 
-import org.jooq.SortField;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,48 +13,56 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.jooq.impl.DSL.field;
 
 @Component
 public class OrderingCriteriaFactory {
 
-    private static final Set<String> POSSIBLE_ORDERING_URL_PARAMETERS = Stream.of(
-            "title",
-            "creation_timestamp",
-            "lowest_price"
-    ).collect(Collectors.toCollection(HashSet::new));
-
     private static final Pattern DESCENDING_PATTERN = Pattern.compile("^desc\\(([A-z]+)\\)$");
     private static final Pattern ASCENDING_PATTERN = Pattern.compile("^asc\\(([A-z]+)\\)$");
+    private static final Set<String> POSSIBLE_ORDERING_URL_PARAMETERS =
+            Stream.of("title", "creation_timestamp", "lowest_price").collect(Collectors.toCollection(HashSet::new));
 
 
-    private SortField<?> parseSingleUrlParameter(String urlParameter) {
-        Matcher descendingMatcher = DESCENDING_PATTERN.matcher(urlParameter);
-        Matcher ascendingMatcher = ASCENDING_PATTERN.matcher(urlParameter);
+    private OrderingCriteria createDescendingOrderingCriteria(String orderingProperty) {
+        if(!POSSIBLE_ORDERING_URL_PARAMETERS.contains(orderingProperty)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ordering property.");
+        }
+        return new OrderingCriteria(orderingProperty, "descending");
+    }
+
+
+    private OrderingCriteria createAscendingOrderingCriteria(String orderingProperty) {
+        if(!POSSIBLE_ORDERING_URL_PARAMETERS.contains(orderingProperty)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ordering property.");
+        }
+        return new OrderingCriteria(orderingProperty, "ascending");
+    }
+
+
+    private OrderingCriteria parseSingleOrderingCriteriaSpecification(String orderingCriteriaSpecification) {
+        Matcher descendingMatcher = DESCENDING_PATTERN.matcher(orderingCriteriaSpecification);
+        Matcher ascendingMatcher = ASCENDING_PATTERN.matcher(orderingCriteriaSpecification);
         if(descendingMatcher.matches()) {
-            String orderingProperty = descendingMatcher.group(1);
-            if(POSSIBLE_ORDERING_URL_PARAMETERS.contains(orderingProperty)) {
-                return field("cte1." + orderingProperty).desc();
-            }
+            return createDescendingOrderingCriteria(descendingMatcher.group(1));
         }
-        else if(ascendingMatcher.matches()) {
-            String orderingProperty = ascendingMatcher.group(1);
-            if(POSSIBLE_ORDERING_URL_PARAMETERS.contains(orderingProperty)) {
-                return field("cte1." + orderingProperty).asc();
-            }
+        else if (ascendingMatcher.matches()) {
+            return createAscendingOrderingCriteria(ascendingMatcher.group(1));
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ordering parameters.");
+        else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ordering criteria specification.");
+        }
     }
 
 
-    private List<SortField<?>> getDefaultOrderingCriteria() {
-        return Collections.singletonList(field("cte1.creation_timestamp").desc());
+    private List<OrderingCriteria> getDefaultOrderingCriteria() {
+        return Collections.singletonList(new OrderingCriteria("creation_timestamp", "descending"));
     }
 
 
-    public List<SortField<?>> fromUrlParameters(List<String> urlParameters) {
-        return urlParameters.isEmpty()
+    public List<OrderingCriteria> fromCriteriaSpecifications(List<String> orderingCriteriaSpecifications) {
+        return orderingCriteriaSpecifications.isEmpty()
                 ? getDefaultOrderingCriteria()
-                : urlParameters.stream().map(this::parseSingleUrlParameter).collect(Collectors.toList());
+                : orderingCriteriaSpecifications.stream().map(this::parseSingleOrderingCriteriaSpecification).collect(Collectors.toList());
     }
+
 }

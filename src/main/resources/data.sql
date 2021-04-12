@@ -1,4 +1,18 @@
-INSERT INTO tags VALUES (1, 'backend');
-INSERT INTO tags VALUES (2, 'frontend');
-INSERT INTO tags VALUES (3, 'embedded');
-INSERT INTO tags VALUES (4, 'wordpress');
+INSERT INTO tags VALUES ('java'),
+                        ('javascript'),
+                        ('c#'),
+                        ('react'),
+                        ('html'),
+                        ('css'),
+                        ('spring'),
+                        ('sql'),
+                        ('c++'),
+                        ('python'),
+                        ('django'),
+                        ('flask'),
+                        ('php'),
+                        ('wordpress'),
+                        ('embedded'),
+                        ('backend'),
+                        ('frontend'),
+                        ('desktop');
