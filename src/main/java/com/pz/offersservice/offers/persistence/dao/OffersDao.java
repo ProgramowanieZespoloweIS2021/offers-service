@@ -1,19 +1,18 @@
-package com.pz.offersservice.offers.dao;
+package com.pz.offersservice.offers.persistence.dao;
 
-import com.pz.offersservice.offers.dto.OfferBriefDTO;
 import com.pz.offersservice.offers.dto.OfferPostDTO;
+import com.pz.offersservice.offers.dto.OfferReportDTO;
 import com.pz.offersservice.offers.entity.Offer;
-import com.pz.offersservice.offers.entity.OfferReportPage;
 import com.pz.offersservice.offers.service.OffersReportParameters;
 
-import java.util.List;
+import java.util.Optional;
 
 
 public interface OffersDao {
 
-    OfferReportPage getOffers(OffersReportParameters offersReportParameters);
+    OfferReportDTO getOffers(OffersReportParameters offersReportParameters);
 
-    Offer getOffer(Long offerId);
+    Optional<Offer> getOffer(Long offerId);
 
     Long createOffer(OfferPostDTO offer);
 

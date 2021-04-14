@@ -1,9 +1,9 @@
-package com.pz.offersservice.offers.dao;
+package com.pz.offersservice.offers.persistence.dao;
 
 import com.pz.offersservice.offers.dto.OfferBriefDTO;
 import com.pz.offersservice.offers.dto.OfferPostDTO;
+import com.pz.offersservice.offers.dto.OfferReportDTO;
 import com.pz.offersservice.offers.entity.Offer;
-import com.pz.offersservice.offers.entity.OfferReportPage;
 import com.pz.offersservice.offers.service.OffersReportParameters;
 import org.jooq.*;
 import org.jooq.exception.NoDataFoundException;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.jooq.impl.DSL.*;
 
@@ -29,14 +30,14 @@ public class OffersDaoJOOQ implements OffersDao {
 
 
     @Override
-    public OfferReportPage getOffers(OffersReportParameters offersReportParameters) {
+    public OfferReportDTO getOffers(OffersReportParameters offersReportParameters) {
         SelectSeekStepN<?> query = offersReportQueryFactory.create(offersReportParameters);
         Integer totalCount = create.fetchCount(query);
         List<OfferBriefDTO> offers = query
                 .limit(offersReportParameters.getPageSize())
                 .offset(offersReportParameters.getPageOffset())
                 .fetchInto(OfferBriefDTO.class);
-        return new OfferReportPage(totalCount, offers);
+        return new OfferReportDTO(totalCount, offers);
     }
 
 
@@ -68,18 +69,19 @@ public class OffersDaoJOOQ implements OffersDao {
 
 
     @Override
-    public Offer getOffer(Long offerId) {
-        return create.select(
-                field("id"),
-                field("owner_id"),
-                field("title"),
-                field("description"),
-                field("creation_timestamp").cast(LocalDateTime.class),
-                field("is_archived")
-        )
-                .from(table("offers"))
-                .where(field("id").eq(offerId))
-                .fetchAnyInto(Offer.class);
+    public Optional<Offer> getOffer(Long offerId) {
+        return Optional.ofNullable(
+                create.select(
+                        field("id"),
+                        field("owner_id"),
+                        field("title"),
+                        field("description"),
+                        field("creation_timestamp").cast(LocalDateTime.class),
+                        field("is_archived")
+                )
+                        .from(table("offers"))
+                        .where(field("id").eq(offerId))
+                        .fetchAnyInto(Offer.class));
     }
 
 }

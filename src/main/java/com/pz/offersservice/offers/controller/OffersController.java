@@ -1,9 +1,8 @@
 package com.pz.offersservice.offers.controller;
 
-import com.pz.offersservice.offers.dto.OfferBriefDTO;
 import com.pz.offersservice.offers.dto.OfferDetailsDTO;
 import com.pz.offersservice.offers.dto.OfferPostDTO;
-import com.pz.offersservice.offers.entity.OfferReportPage;
+import com.pz.offersservice.offers.dto.OfferReportDTO;
 import com.pz.offersservice.offers.filtering.filter.FilteringCriteria;
 import com.pz.offersservice.offers.filtering.FilteringCriteriaParser;
 import com.pz.offersservice.offers.ordering.OrderingCriteria;
@@ -12,6 +11,7 @@ import com.pz.offersservice.offers.service.OffersService;
 import com.pz.offersservice.tags.entity.Tag;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,22 +19,28 @@ import java.util.List;
 public class OffersController {
 
     private final OffersService offersService;
+    private final OrderingCriteriaParser orderingCriteriaParser;
+    private final FilteringCriteriaParser filteringCriteriaParser;
 
 
-    public OffersController(OffersService offersService) {
+    public OffersController(OffersService offersService,
+                            OrderingCriteriaParser orderingCriteriaParser,
+                            FilteringCriteriaParser filteringCriteriaParser) {
         this.offersService = offersService;
+        this.orderingCriteriaParser = orderingCriteriaParser;
+        this.filteringCriteriaParser = filteringCriteriaParser;
     }
 
 
     @GetMapping
-    public OfferReportPage getOffers(@RequestParam(defaultValue = "20") Integer pageLimit,
-                                     @RequestParam(defaultValue = "0") Integer pageOffset,
-                                     @RequestParam(defaultValue = "desc:creation_timestamp") List<String> orderBy,
-                                     @RequestParam(defaultValue = "") String ownerIdFilter,
-                                     @RequestParam(defaultValue = "") List<String> minimalPriceFilter,
-                                     @RequestParam(defaultValue = "") List<String> tags) {
-        List<OrderingCriteria> orderingCriteria = new OrderingCriteriaParser().parse(orderBy);
-        List<FilteringCriteria> filteringCriteria = new FilteringCriteriaParser().parse(ownerIdFilter, minimalPriceFilter, tags);
+    public OfferReportDTO getOffers(@RequestParam(defaultValue = "20", name = "limit") Integer pageLimit,
+                                    @RequestParam(defaultValue = "0", name = "offset") Integer pageOffset,
+                                    @RequestParam(defaultValue = "", name = "order_by") List<String> orderBy,
+                                    @RequestParam(defaultValue = "", name = "owner_id") String ownerIdFilter,
+                                    @RequestParam(defaultValue = "", name = "min_price") List<String> minimalPriceFilter,
+                                    @RequestParam(defaultValue = "", name = "tags") List<String> tagsFilter) {
+        List<OrderingCriteria> orderingCriteria = orderingCriteriaParser.parse(orderBy);
+        List<FilteringCriteria> filteringCriteria = filteringCriteriaParser.parse(ownerIdFilter, minimalPriceFilter, tagsFilter);
         return offersService.getOffers(pageLimit, pageOffset, orderingCriteria, filteringCriteria);
     }
 
@@ -46,13 +52,13 @@ public class OffersController {
 
 
     @PostMapping
-    public Long addOffer(@RequestBody OfferPostDTO offerPostDto) {
+    public Long addOffer(@RequestBody @Valid OfferPostDTO offerPostDto) {
         return offersService.addOffer(offerPostDto);
     }
 
 
     @PostMapping("/{id}")
-    public Long updateOffer(@PathVariable("id") Long offerId, @RequestBody OfferPostDTO offerPostDto) {
+    public Long updateOffer(@PathVariable("id") Long offerId, @RequestBody @Valid OfferPostDTO offerPostDto) {
         return offersService.updateOffer(offerId, offerPostDto);
     }
 

@@ -4,6 +4,7 @@ import com.pz.offersservice.offers.filtering.filter.FilteringCriteria;
 import com.pz.offersservice.offers.filtering.filter.MinimalPriceFilter;
 import com.pz.offersservice.offers.filtering.filter.OwnerIdFilter;
 import com.pz.offersservice.offers.filtering.filter.TagsFilter;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
 public class FilteringCriteriaParser {
 
     private final FilteringCriteriaMapper filteringCriteriaMapper = new FilteringCriteriaMapper();

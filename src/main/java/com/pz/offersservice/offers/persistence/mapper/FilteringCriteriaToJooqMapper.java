@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.dao;
+package com.pz.offersservice.offers.persistence.mapper;
 
 import com.pz.offersservice.offers.filtering.FilteringType;
 import com.pz.offersservice.offers.filtering.filter.*;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static org.jooq.impl.DSL.*;
 
 @Component
-public class FilteringCriteriaToJooqConverter {
+public class FilteringCriteriaToJooqMapper {
 
     private final DSLContext create;
 
@@ -87,7 +87,7 @@ public class FilteringCriteriaToJooqConverter {
     }
 
 
-    public FilteringCriteriaToJooqConverter(DSLContext context) {
+    public FilteringCriteriaToJooqMapper(DSLContext context) {
         this.create = context;
     }
 

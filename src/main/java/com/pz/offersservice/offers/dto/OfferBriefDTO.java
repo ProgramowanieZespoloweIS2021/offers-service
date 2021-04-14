@@ -2,6 +2,7 @@ package com.pz.offersservice.offers.dto;
 
 import java.math.BigDecimal;
 
+
 public class OfferBriefDTO {
 
     private final Long id;

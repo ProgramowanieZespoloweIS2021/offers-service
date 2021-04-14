@@ -1,12 +1,11 @@
 package com.pz.offersservice.offers.service;
 
-import com.pz.offersservice.offers.dao.OffersDao;
-import com.pz.offersservice.offers.dto.OfferBriefDTO;
+import com.pz.offersservice.offers.dto.OfferReportDTO;
+import com.pz.offersservice.offers.persistence.dao.OffersDao;
 import com.pz.offersservice.offers.dto.OfferDetailsDTO;
 import com.pz.offersservice.offers.dto.OfferPostDTO;
 import com.pz.offersservice.offers.entity.Offer;
-import com.pz.offersservice.offers.entity.OfferReportPage;
-import com.pz.offersservice.offers.exception.OfferArchivedException;
+import com.pz.offersservice.offers.exception.InvalidOfferIdentifierException;
 import com.pz.offersservice.offers.filtering.FilteringType;
 import com.pz.offersservice.offers.filtering.filter.ArchivedFilter;
 import com.pz.offersservice.offers.filtering.filter.FilteringCriteria;
@@ -37,7 +36,7 @@ public class OffersService {
     }
 
 
-    public OfferReportPage getOffers(Integer pageSize, Integer pageOffset, List<OrderingCriteria> orderingCriteria, List<FilteringCriteria> filteringCriteria) {
+    public OfferReportDTO getOffers(Integer pageSize, Integer pageOffset, List<OrderingCriteria> orderingCriteria, List<FilteringCriteria> filteringCriteria) {
         filteringCriteria.add(new ArchivedFilter(FilteringType.EQUAL, false));
         OffersReportParameters offersReportParameters = new OffersReportParameters(pageSize, pageOffset, orderingCriteria, filteringCriteria);
         return offersDaoJOOQ.getOffers(offersReportParameters);
@@ -45,7 +44,7 @@ public class OffersService {
 
 
     public OfferDetailsDTO getOfferDetails(Long offerId) {
-        Offer offer = offersDaoJOOQ.getOffer(offerId);
+        Offer offer = offersDaoJOOQ.getOffer(offerId).orElseThrow(() -> new InvalidOfferIdentifierException("Offer with this ID does not exist."));
         List<Tier> offerTiers = tiersDaoJOOQ.getTiersForOffer(offerId);
         List<Tag> offerTags = tagsDaoJOOQ.getTagsForOffer(offerId);
         return new OfferDetailsDTO(offer, offerTiers, offerTags);
@@ -53,9 +52,9 @@ public class OffersService {
 
 
     public void deleteOffer(Long offerId) {
-        Offer offer = offersDaoJOOQ.getOffer(offerId);
+        Offer offer = offersDaoJOOQ.getOffer(offerId).orElseThrow(() -> new InvalidOfferIdentifierException("Offer with this ID does not exist."));
         if(offer.getArchived()) {
-            throw new OfferArchivedException("This offer has already been archived.");
+            throw new InvalidOfferIdentifierException("This offer has already been archived.");
         }
         offersDaoJOOQ.deleteOffer(offerId);
     }
@@ -70,9 +69,9 @@ public class OffersService {
 
 
     public Long updateOffer(Long offerId, OfferPostDTO offerPostDto) {
-        Offer offer = offersDaoJOOQ.getOffer(offerId);
+        Offer offer = offersDaoJOOQ.getOffer(offerId).orElseThrow(() -> new InvalidOfferIdentifierException("Offer with this ID does not exist."));
         if(offer.getArchived()) {
-            throw new OfferArchivedException("This offer has been archived and can not be modified.");
+            throw new InvalidOfferIdentifierException("This offer has been archived and can not be modified.");
         }
         deleteOffer(offerId);
         return addOffer(offerPostDto);

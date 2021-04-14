@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
+@Component
 public class OrderingCriteriaParser {
 
     private static final Pattern ORDERING_PATTERN = Pattern.compile("^(asc|desc):([A-z]+)$");

@@ -1,5 +1,7 @@
-package com.pz.offersservice.offers.dao;
+package com.pz.offersservice.offers.persistence.dao;
 
+import com.pz.offersservice.offers.persistence.mapper.FilteringCriteriaToJooqMapper;
+import com.pz.offersservice.offers.persistence.mapper.OrderingCriteriaToJooqMapper;
 import com.pz.offersservice.offers.service.OffersReportParameters;
 import org.jooq.*;
 import org.springframework.stereotype.Component;
@@ -13,13 +15,13 @@ import static org.jooq.impl.DSL.*;
 @Component
 public class OffersReportQueryFactory {
 
-    private final OrderingCriteriaToJooqConverter orderingCriteriaToJooqConverter;
-    private final FilteringCriteriaToJooqConverter filteringCriteriaToJooqConverter;
+    private final OrderingCriteriaToJooqMapper orderingCriteriaToJooqMapper;
+    private final FilteringCriteriaToJooqMapper filteringCriteriaToJooqMapper;
     private final DSLContext create;
 
 
     private Condition createOffersFilteringClause(OffersReportParameters offersReportParameters) {
-        return filteringCriteriaToJooqConverter.convertAllCriteria(offersReportParameters.getFilteringCriteria());
+        return filteringCriteriaToJooqMapper.convertAllCriteria(offersReportParameters.getFilteringCriteria());
     }
 
 
@@ -42,15 +44,15 @@ public class OffersReportQueryFactory {
     }
 
 
-    public OffersReportQueryFactory(OrderingCriteriaToJooqConverter orderingCriteriaToJooqConverter, FilteringCriteriaToJooqConverter filteringCriteriaToJooqConverter, DSLContext context) {
-        this.orderingCriteriaToJooqConverter = orderingCriteriaToJooqConverter;
-        this.filteringCriteriaToJooqConverter = filteringCriteriaToJooqConverter;
+    public OffersReportQueryFactory(OrderingCriteriaToJooqMapper orderingCriteriaToJooqMapper, FilteringCriteriaToJooqMapper filteringCriteriaToJooqMapper, DSLContext context) {
+        this.orderingCriteriaToJooqMapper = orderingCriteriaToJooqMapper;
+        this.filteringCriteriaToJooqMapper = filteringCriteriaToJooqMapper;
         this.create = context;
     }
 
 
     public SelectSeekStepN<?> create(OffersReportParameters offersReportParameters) {
-        List<SortField<?>> sortFields = orderingCriteriaToJooqConverter.convert(offersReportParameters.getOrderingCriteria());
+        List<SortField<?>> sortFields = orderingCriteriaToJooqMapper.convert(offersReportParameters.getOrderingCriteria());
         Condition whereClause = createOffersFilteringClause(offersReportParameters);
         CommonTableExpression<?> offersCTE = createCommonTableExpressionWithOffersData();
         return create.with(offersCTE).select(

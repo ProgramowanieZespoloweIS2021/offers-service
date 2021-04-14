@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.dao;
+package com.pz.offersservice.offers.persistence.mapper;
 
 import com.pz.offersservice.offers.ordering.OrderingCriteria;
 import com.pz.offersservice.offers.ordering.OrderingType;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import static org.jooq.impl.DSL.field;
 
 @Component
-public class OrderingCriteriaToJooqConverter {
+public class OrderingCriteriaToJooqMapper {
 
     private SortField<?> convertSingleOrderingCriteria(OrderingCriteria orderingCriteria) {
         return orderingCriteria.getOrderingType().equals(OrderingType.ASCENDING)
