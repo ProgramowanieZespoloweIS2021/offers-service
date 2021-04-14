@@ -121,14 +121,14 @@ of this new offer should be fetched.
 
 URL: `localhost:8080/offers?<params>`
 
-For example: `localhost:8080/offers?pageLimit=8&pageOffset=0&orderBy=desc:creation_timestamp&minimalPriceFilter=lt:6`
+For example: `localhost:8080/offers?limit=8&offset=0&order_by=desc:creation_timestamp&min_price=lt:6`
 
-Sorting: `orderBy=<direction>:<field>`, where `direction = (asc|desc)` and `field = (title|creation_timestamp|lowest_price)` 
+Sorting: `order_by=<direction>:<field>`, where `direction = (asc|desc)` and `field = (title|creation_timestamp|lowest_price)` 
 (for now).
 
-Pagination: `pageLimit=<value>&pageOffer=<value>` - limit is 20 by default and offset is 0 by default
+Pagination: `limit=<value>&offset=<value>` - limit is 20 by default and offset is 0 by default
 
-Filtering: `<property>=<condition>:<value>`, for example `minimalPriceFilter=lt:6` (will be renamed).
+Filtering: `<property>=<condition>:<value>`, for example `min_price=lt:6` (will be renamed).
 
 Filtering by tags: `tags=<tag_list>`, for example `tags=java,backend`.
 
