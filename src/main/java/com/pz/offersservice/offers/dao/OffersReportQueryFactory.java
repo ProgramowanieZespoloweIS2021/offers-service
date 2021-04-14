@@ -13,33 +13,22 @@ import static org.jooq.impl.DSL.*;
 @Component
 public class OffersReportQueryFactory {
 
-    private final OrderingCriteriaToSortFieldsConverter orderingCriteriaToSortFieldsConverter;
+    private final OrderingCriteriaToJooqConverter orderingCriteriaToJooqConverter;
+    private final FilteringCriteriaToJooqConverter filteringCriteriaToJooqConverter;
     private final DSLContext create;
 
 
-    private Field<Integer> createMatchingTagsCountingQuery(List<String> tags) {
-        return field(
-                create
-                .selectCount()
-                .from(table("offers_tags"))
-                .where(field("tag_name").in(tags).and(field("offer_id").eq(field("id")))));
-    }
-
-
     private Condition createOffersFilteringClause(OffersReportParameters offersReportParameters) {
-        List<String> tags = offersReportParameters.getTags();
-        Field<Integer> matchingTagsCountingQuery = createMatchingTagsCountingQuery(tags);
-        return trueCondition()
-                .and(field("is_archived").equal(false))
-                .and(matchingTagsCountingQuery.greaterOrEqual(tags.size()));
+        return filteringCriteriaToJooqConverter.convertAllCriteria(offersReportParameters.getFilteringCriteria());
     }
 
 
     private CommonTableExpression<?> createCommonTableExpressionWithOffersData() {
         return name("offers_cte")
-                .fields("id", "title", "lowest_price", "creation_timestamp", "is_archived")
+                .fields("id", "owner_id", "title", "lowest_price", "creation_timestamp", "is_archived")
                 .as(select(
                         field("offers.id").cast(Long.class),
+                        field("offers.owner_id").cast(Long.class),
                         field("offers.title").cast(String.class),
                         min(field("tiers.price")).cast(BigDecimal.class),
                         field("offers.creation_timestamp").cast(LocalDateTime.class),
@@ -53,14 +42,15 @@ public class OffersReportQueryFactory {
     }
 
 
-    public OffersReportQueryFactory(OrderingCriteriaToSortFieldsConverter orderingCriteriaToSortFieldsConverter, DSLContext context) {
-        this.orderingCriteriaToSortFieldsConverter = orderingCriteriaToSortFieldsConverter;
+    public OffersReportQueryFactory(OrderingCriteriaToJooqConverter orderingCriteriaToJooqConverter, FilteringCriteriaToJooqConverter filteringCriteriaToJooqConverter, DSLContext context) {
+        this.orderingCriteriaToJooqConverter = orderingCriteriaToJooqConverter;
+        this.filteringCriteriaToJooqConverter = filteringCriteriaToJooqConverter;
         this.create = context;
     }
 
 
-    public SelectForUpdateStep<?> create(OffersReportParameters offersReportParameters) {
-        List<SortField<?>> sortFields = orderingCriteriaToSortFieldsConverter.convert(offersReportParameters.getOrderingCriteria());
+    public SelectSeekStepN<?> create(OffersReportParameters offersReportParameters) {
+        List<SortField<?>> sortFields = orderingCriteriaToJooqConverter.convert(offersReportParameters.getOrderingCriteria());
         Condition whereClause = createOffersFilteringClause(offersReportParameters);
         CommonTableExpression<?> offersCTE = createCommonTableExpressionWithOffersData();
         return create.with(offersCTE).select(
@@ -70,9 +60,7 @@ public class OffersReportQueryFactory {
                 )
                 .from(offersCTE)
                 .where(whereClause)
-                .orderBy(sortFields)
-                .limit(offersReportParameters.getPageSize())
-                .offset(offersReportParameters.getPageOffset());
+                .orderBy(sortFields);
     }
 
 }

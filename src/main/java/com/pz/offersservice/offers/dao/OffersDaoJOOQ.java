@@ -3,6 +3,7 @@ package com.pz.offersservice.offers.dao;
 import com.pz.offersservice.offers.dto.OfferBriefDTO;
 import com.pz.offersservice.offers.dto.OfferPostDTO;
 import com.pz.offersservice.offers.entity.Offer;
+import com.pz.offersservice.offers.entity.OfferReportPage;
 import com.pz.offersservice.offers.service.OffersReportParameters;
 import org.jooq.*;
 import org.jooq.exception.NoDataFoundException;
@@ -28,10 +29,14 @@ public class OffersDaoJOOQ implements OffersDao {
 
 
     @Override
-    public List<OfferBriefDTO> getOffers(OffersReportParameters offersReportParameters) {
-        return offersReportQueryFactory
-                .create(offersReportParameters)
+    public OfferReportPage getOffers(OffersReportParameters offersReportParameters) {
+        SelectSeekStepN<?> query = offersReportQueryFactory.create(offersReportParameters);
+        Integer totalCount = create.fetchCount(query);
+        List<OfferBriefDTO> offers = query
+                .limit(offersReportParameters.getPageSize())
+                .offset(offersReportParameters.getPageOffset())
                 .fetchInto(OfferBriefDTO.class);
+        return new OfferReportPage(totalCount, offers);
     }
 
 

@@ -5,7 +5,7 @@ import com.pz.offersservice.tiers.entity.Tier;
 import java.util.List;
 
 public class OfferPostDTO {
-
+    
     private final Long ownerId;
     private final String title;
     private final String description;

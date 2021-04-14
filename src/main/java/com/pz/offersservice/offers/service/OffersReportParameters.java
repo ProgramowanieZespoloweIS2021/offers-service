@@ -1,5 +1,8 @@
 package com.pz.offersservice.offers.service;
 
+import com.pz.offersservice.offers.filtering.filter.FilteringCriteria;
+import com.pz.offersservice.offers.ordering.OrderingCriteria;
+
 import java.util.List;
 
 public class OffersReportParameters {
@@ -7,13 +10,13 @@ public class OffersReportParameters {
     private final Integer pageSize;
     private final Integer pageOffset;
     private final List<OrderingCriteria> orderingCriteria;
-    private final List<String> tags;
+    private final List<FilteringCriteria> filteringCriteria;
 
-    public OffersReportParameters(Integer pageSize, Integer pageOffset, List<OrderingCriteria> orderingCriteria, List<String> tags) {
+    public OffersReportParameters(Integer pageSize, Integer pageOffset, List<OrderingCriteria> orderingCriteria, List<FilteringCriteria> filteringCriteria) {
         this.pageSize = pageSize;
         this.pageOffset = pageOffset;
         this.orderingCriteria = orderingCriteria;
-        this.tags = tags;
+        this.filteringCriteria = filteringCriteria;
     }
 
     public Integer getPageSize() {
@@ -28,7 +31,7 @@ public class OffersReportParameters {
         return orderingCriteria;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public List<FilteringCriteria> getFilteringCriteria() {
+        return filteringCriteria;
     }
 }
