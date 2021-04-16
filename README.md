@@ -4,6 +4,14 @@
 
 [![codecov](https://codecov.io/gh/ProgramowanieZespoloweIS2021/offers-service/branch/main/graph/badge.svg?token=ODDINBT1E9)](https://codecov.io/gh/ProgramowanieZespoloweIS2021/offers-service)
 
+## Overview
+TODO: prepare
+
+## Running
+TODO: prepare
+
+## Docker image
+TODO: prepare
 
 ## For developers
 Following actions are currently supported:
