@@ -49,6 +49,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.simpleflatmapper</groupId>
+            <artifactId>sfm-jooq</artifactId>
+            <version>8.2.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>

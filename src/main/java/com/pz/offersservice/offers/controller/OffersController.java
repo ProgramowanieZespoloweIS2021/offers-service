@@ -1,14 +1,14 @@
 package com.pz.offersservice.offers.controller;
 
-import com.pz.offersservice.offers.dto.OfferDetailsDTO;
 import com.pz.offersservice.offers.dto.OfferPostDTO;
 import com.pz.offersservice.offers.dto.OfferReportDTO;
-import com.pz.offersservice.offers.filtering.filter.FilteringCriteria;
-import com.pz.offersservice.offers.filtering.FilteringCriteriaParser;
-import com.pz.offersservice.offers.ordering.OrderingCriteria;
-import com.pz.offersservice.offers.ordering.OrderingCriteriaParser;
+import com.pz.offersservice.offers.entity.Offer;
+import com.pz.offersservice.offers.filter.filter.FilteringCriteria;
+import com.pz.offersservice.offers.filter.FilteringCriteriaParser;
+import com.pz.offersservice.offers.order.OrderingCriteria;
+import com.pz.offersservice.offers.order.OrderingCriteriaParser;
 import com.pz.offersservice.offers.service.OffersService;
-import com.pz.offersservice.tags.entity.Tag;
+import com.pz.offersservice.offers.entity.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -46,7 +46,7 @@ public class OffersController {
 
 
     @GetMapping("/{id}")
-    public OfferDetailsDTO getOfferDetails(@PathVariable("id") Long offerId) {
+    public Offer getOfferDetails(@PathVariable("id") Long offerId) {
         return offersService.getOfferDetails(offerId);
     }
 

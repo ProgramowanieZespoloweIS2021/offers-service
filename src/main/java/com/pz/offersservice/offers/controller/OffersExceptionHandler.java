@@ -17,6 +17,7 @@ import java.util.Map;
 @ControllerAdvice
 public class OffersExceptionHandler {
 
+
     @ExceptionHandler(value = {
             InvalidOrderingCriteriaException.class,
             InvalidFilteringCriteriaException.class,

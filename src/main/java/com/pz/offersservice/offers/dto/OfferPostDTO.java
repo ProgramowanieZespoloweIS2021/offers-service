@@ -1,6 +1,7 @@
 package com.pz.offersservice.offers.dto;
 
-import com.pz.offersservice.tiers.entity.Tier;
+import com.pz.offersservice.offers.entity.Thumbnail;
+import com.pz.offersservice.offers.entity.Tier;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -25,12 +26,16 @@ public class OfferPostDTO {
     @NotEmpty(message = "Offer must contain at least one tier.")
     private final List<@Valid Tier> tiers;
 
-    public OfferPostDTO(Long ownerId, String title, String description, List<String> tags, List<Tier> tiers) {
+    @NotEmpty(message = "Offer must contain at least one thumbnail.")
+    private final List<@NotEmpty(message = "Thumbnail URL is mandatory.") String> thumbnails;
+
+    public OfferPostDTO(Long ownerId, String title, String description, List<String> tags, List<Tier> tiers, List<String> thumbnails) {
         this.ownerId = ownerId;
         this.title = title;
         this.description = description;
         this.tags = tags;
         this.tiers = tiers;
+        this.thumbnails = thumbnails;
     }
 
     public Long getOwnerId() {
@@ -51,5 +56,9 @@ public class OfferPostDTO {
 
     public List<Tier> getTiers() {
         return tiers;
+    }
+
+    public List<String> getThumbnails() {
+        return thumbnails;
     }
 }

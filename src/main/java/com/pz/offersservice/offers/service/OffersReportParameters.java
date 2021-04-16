@@ -1,7 +1,7 @@
 package com.pz.offersservice.offers.service;
 
-import com.pz.offersservice.offers.filtering.filter.FilteringCriteria;
-import com.pz.offersservice.offers.ordering.OrderingCriteria;
+import com.pz.offersservice.offers.filter.filter.FilteringCriteria;
+import com.pz.offersservice.offers.order.OrderingCriteria;
 
 import java.util.List;
 

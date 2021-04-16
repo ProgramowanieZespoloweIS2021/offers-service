@@ -1,7 +1,7 @@
 package com.pz.offersservice.offers.persistence.mapper;
 
-import com.pz.offersservice.offers.filtering.FilteringType;
-import com.pz.offersservice.offers.filtering.filter.*;
+import com.pz.offersservice.offers.filter.FilteringType;
+import com.pz.offersservice.offers.filter.filter.*;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -21,10 +21,10 @@ public class FilteringCriteriaToJooqMapper {
     private Condition convertMinimalPriceFilter(MinimalPriceFilter minimalPriceFilter) {
         FilteringType filteringType = minimalPriceFilter.getFilteringType();
         if(filteringType.equals(FilteringType.LESSER)) {
-            return field("lowest_price").lessThan(minimalPriceFilter.getMinimalPrice());
+            return min(field("tiers.price")).lessThan(minimalPriceFilter.getMinimalPrice());
         }
         else if (filteringType.equals(FilteringType.GREATER)) {
-            return field("lowest_price").greaterThan(minimalPriceFilter.getMinimalPrice());
+            return min(field("tiers.price")).greaterThan(minimalPriceFilter.getMinimalPrice());
         }
         else {
             throw new RuntimeException(); // TODO: better exception
@@ -48,7 +48,7 @@ public class FilteringCriteriaToJooqMapper {
                 create
                         .selectCount()
                         .from(table("offers_tags"))
-                        .where(field("tag_name").in(tagsFilter.getTags()).and(field("offer_id").eq(field("id")))));
+                        .where(field("tag_name").in(tagsFilter.getTags()).and(field("offer_id").eq(field("offers.id")))));
         return matchingTagsCountingQuery.greaterOrEqual(tagsFilter.getTags().size());
     }
 
@@ -56,7 +56,7 @@ public class FilteringCriteriaToJooqMapper {
     private Condition convertArchivedFilter(ArchivedFilter archivedFilter) {
         FilteringType filteringType = archivedFilter.getFilteringType();
         if(filteringType.equals(FilteringType.EQUAL)) {
-            return field("is_archived").equal(archivedFilter.getValue());
+            return field("offers.is_archived").equal(archivedFilter.getValue());
         }
         else {
             throw new RuntimeException(); // TODO: better exception
@@ -92,7 +92,7 @@ public class FilteringCriteriaToJooqMapper {
     }
 
 
-    public Condition convertAllCriteria(List<FilteringCriteria> filteringCriteria) {
+    public Condition convert(List<FilteringCriteria> filteringCriteria) {
         List<Condition> jooqFilteringConditions =
                 filteringCriteria
                         .stream()

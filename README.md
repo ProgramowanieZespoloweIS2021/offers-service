@@ -19,29 +19,41 @@ Response example:
     "ownerId": 0,
     "title": "Example offer 2",
     "description": "Example description",
-    "creationTimestamp": "2021-04-14T03:16:27.031978",
+    "creationTimestamp": "2021-04-16T21:05:36.904969",
     "tiers": [
         {
             "id": 1,
             "title": "tier1",
             "description": "tier1 description",
-            "price": 5.50
+            "price": 5.50,
+            "deliveryTime": 2
         },
         {
             "id": 2,
             "title": "tier2",
             "description": "tier2 description",
-            "price": 7.50
+            "price": 7.50,
+            "deliveryTime": 3
         }
     ],
     "tags": [
+        {
+            "name": "cpp"
+        },
         {
             "name": "java"
         },
         {
             "name": "backend"
         }
-    ]
+    ],
+    "thumbnails": [
+        {
+            "id": 1,
+            "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"
+        }
+    ],
+    "archived": false
 }
 ```
 
@@ -56,23 +68,35 @@ Request body example:
     "title": "Example offer 2",
     "description": "Example description",
     "ownerId": 0,
-    "tags": ["java", "backend"],
+    "tags": ["cpp", "java", "backend"],
+    "thumbnails": ["https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"],
     "tiers": [
         { 
             "title": "tier1",
             "description": "tier1 description",
-            "price": 5.50
+            "price": 5.50,
+            "deliveryTime": 2
         },
         { 
             "title": "tier2",
             "description": "tier2 description",
-            "price": 7.50
+            "price": 7.50,
+            "deliveryTime": 3
         }
     ]
 }
 ```
 
 Response example: `1` (ID of new offer).
+
+Example error response:
+```json
+{
+    "tiers[0].price": "Tier price can not be negative.",
+    "tiers[0].title": "Tier title is mandatory and should not be empty.",
+    "ownerId": "Owner ID is mandatory."
+}
+```
 
 
 ### Deleting offer
@@ -88,29 +112,7 @@ Please note that deleted offers are not removed from the database (only a flag i
 
 URL: `localhost:8080/offers/<offer_id>` (POST method)
 
-Request body example (same as posting new offer):
-```json
-{
-    "title": "Example offer after editing",
-    "description": "Example description",
-    "ownerId": 0,
-    "tags": ["c++", "embedded"],
-    "tiers": [
-        { 
-            "title": "tier2",
-            "description": "tier1 description",
-            "price": 4.50
-        },
-        { 
-            "title": "tier3",
-            "description": "tier2 description",
-            "price": 5.50
-        }
-    ]
-}
-```
-
-Response example: `2` (ID of offer after update).
+Request body, response and errors are the same as for adding an offer.
 
 Please note: it is important to understand that this deletes (marks as archived) the old offer 
 and creates the new one (to preserve old version of offer). ID of new offer is returned, and details
@@ -132,30 +134,104 @@ Filtering: `<property>=<condition>:<value>`, for example `min_price=lt:6` (will 
 
 Filtering by tags: `tags=<tag_list>`, for example `tags=java,backend`.
 
+***Note for frontend developers:*** what exactly should be returned here? What sorting and filtering should be implemented?
+
 Response example:
 ```json
 {
     "totalNumberOfOffers": 4,
     "offers": [
         {
-            "id": 6,
-            "name": "Example offer after editing",
-            "minimalPrice": 4.50
+            "id": 1,
+            "ownerId": 0,
+            "name": "Example offer 2",
+            "minimalPrice": 5.50,
+            "tags": [
+                {
+                    "name": "cpp"
+                },
+                {
+                    "name": "java"
+                },
+                {
+                    "name": "backend"
+                }
+            ],
+            "thumbnails": [
+                {
+                    "id": 1,
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"
+                }
+            ]
         },
         {
-            "id": 5,
+            "id": 2,
+            "ownerId": 0,
             "name": "Example offer 2",
-            "minimalPrice": 5.50
-        },
-        {
-            "id": 4,
-            "name": "Example offer 2",
-            "minimalPrice": 5.50
+            "minimalPrice": 5.50,
+            "tags": [
+                {
+                    "name": "cpp"
+                },
+                {
+                    "name": "java"
+                },
+                {
+                    "name": "backend"
+                }
+            ],
+            "thumbnails": [
+                {
+                    "id": 2,
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"
+                }
+            ]
         },
         {
             "id": 3,
+            "ownerId": 0,
             "name": "Example offer 2",
-            "minimalPrice": 5.50
+            "minimalPrice": 5.50,
+            "tags": [
+                {
+                    "name": "cpp"
+                },
+                {
+                    "name": "java"
+                },
+                {
+                    "name": "backend"
+                }
+            ],
+            "thumbnails": [
+                {
+                    "id": 3,
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "ownerId": 0,
+            "name": "Example offer 2",
+            "minimalPrice": 5.50,
+            "tags": [
+                {
+                    "name": "cpp"
+                },
+                {
+                    "name": "java"
+                },
+                {
+                    "name": "backend"
+                }
+            ],
+            "thumbnails": [
+                {
+                    "id": 4,
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"
+                }
+            ]
         }
     ]
 }

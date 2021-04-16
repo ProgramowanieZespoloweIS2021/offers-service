@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS offers_tags;
-DROP TABLE IF EXISTS offers;
-DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS thumbnails;
 DROP TABLE IF EXISTS tiers;
+DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS offers;
 
 CREATE TABLE offers (
     id SERIAL PRIMARY KEY,
@@ -29,5 +30,14 @@ CREATE TABLE tiers (
     offer_id SERIAL NOT NULL,
     title TEXT,
     description TEXT,
-    price NUMERIC
+    price NUMERIC,
+    delivery_time INTEGER,
+    CONSTRAINT FK_OFFER FOREIGN KEY (offer_id) REFERENCES offers(id)
+);
+
+CREATE TABLE thumbnails (
+    id SERIAL PRIMARY KEY,
+    offer_id SERIAL NOT NULL,
+    url TEXT NOT NULL,
+    CONSTRAINT FK_OFFER FOREIGN KEY (offer_id) REFERENCES offers(id)
 );
