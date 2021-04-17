@@ -1,13 +1,14 @@
 package com.pz.offersservice;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-//@SpringBootTest
-//class OffersServiceApplicationTests {
-//
-//    @Test
-//    void contextLoads() {
-//    }
-//
-//}
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+class OffersServiceApplicationTests {
+
+    @Test
+    void dummyTest() {
+        assertThat(1).isEqualTo(1);
+    }
+
+}
