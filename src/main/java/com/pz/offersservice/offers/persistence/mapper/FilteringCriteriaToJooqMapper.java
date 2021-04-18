@@ -1,7 +1,6 @@
 package com.pz.offersservice.offers.persistence.mapper;
 
-import com.pz.offersservice.offers.filter.FilteringType;
-import com.pz.offersservice.offers.filter.filter.*;
+import com.pz.offersservice.offers.domain.filter.*;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
