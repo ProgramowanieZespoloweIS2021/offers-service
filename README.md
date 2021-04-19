@@ -28,7 +28,7 @@ docker run --network eszop \
   -e POSTGRES_USER=admin \
   -e POSTGRES_PASSWORD=admin \
   --name offers \
-  arokasprz100/offers:latest
+  arokasprz100/offers-service:latest
 
 ```
 
