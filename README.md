@@ -8,10 +8,33 @@
 TODO: prepare
 
 ## Running
-TODO: prepare
+It is easiest to run this using Docker. Run following commands to create a docker network and containers with 
+both database and the app:
 
-## Docker image
-TODO: prepare
+```shell script
+docker network create eszop
+
+docker run --network eszop \
+  -d -p 5432:5432 \
+  -e POSTGRES_USER=admin \
+  -e POSTGRES_PASSWORD=admin \
+  --name offersdb \
+  postgres
+
+docker run --network eszop \
+  -d -p 8080:8080 \
+  -e POSTGRES_HOST=offersdb \
+  -e POSTGRES_PORT=5432 \
+  -e POSTGRES_USER=admin \
+  -e POSTGRES_PASSWORD=admin \
+  --name offers \
+  arokasprz100/offers:latest
+
+```
+
+App will be available on `localhost:8080`
+
+
 
 ## For developers
 Following actions are currently supported:

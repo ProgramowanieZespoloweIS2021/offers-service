@@ -1,7 +1,7 @@
 package com.pz.offersservice.offers.persistence.mapper;
 
-import com.pz.offersservice.offers.order.OrderingCriteria;
-import com.pz.offersservice.offers.order.OrderingType;
+import com.pz.offersservice.offers.domain.order.OrderingCriteria;
+import com.pz.offersservice.offers.domain.order.OrderingType;
 import org.jooq.SortField;
 import org.springframework.stereotype.Component;
 
