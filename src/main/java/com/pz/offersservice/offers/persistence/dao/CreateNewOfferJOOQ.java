@@ -67,7 +67,7 @@ public class CreateNewOfferJOOQ {
                         table("thumbnails"),
                         field("offer_id"),
                         field("url"))
-                        .values(offerId, thumbnail)
+                        .values(offerId, thumbnail.getUrl())
                 ).collect(Collectors.toList());
         create.batch(insertQueries).execute();
     }

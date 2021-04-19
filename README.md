@@ -18,16 +18,16 @@ docker run --network eszop \
   -d -p 5432:5432 \
   -e POSTGRES_USER=admin \
   -e POSTGRES_PASSWORD=admin \
-  --name psql_offers_eszop \
+  --name offersdb \
   postgres
 
 docker run --network eszop \
   -d -p 8080:8080 \
-  -e POSTGRES_HOST=psql_offers_eszop \
+  -e POSTGRES_HOST=offersdb \
   -e POSTGRES_PORT=5432 \
   -e POSTGRES_USER=admin \
   -e POSTGRES_PASSWORD=admin \
-  --name offers_eszop \
+  --name offers \
   arokasprz100/offers:latest
 
 ```
