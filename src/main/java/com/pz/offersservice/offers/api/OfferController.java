@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/offers")
 public class OfferController {
