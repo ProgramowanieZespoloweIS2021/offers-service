@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.persistence.dao;
+package com.pz.offersservice.offers.adapters.persistence.dao;
 
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;

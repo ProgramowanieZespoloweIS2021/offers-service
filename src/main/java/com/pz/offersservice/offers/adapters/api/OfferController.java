@@ -1,7 +1,7 @@
-package com.pz.offersservice.offers.api;
+package com.pz.offersservice.offers.adapters.api;
 
-import com.pz.offersservice.offers.api.mapper.UrlParametersToFilteringCriteriaMapper;
-import com.pz.offersservice.offers.api.mapper.UrlParametersToOrderingCriteriaMapper;
+import com.pz.offersservice.offers.adapters.api.mapper.UrlParametersToFilteringCriteriaMapper;
+import com.pz.offersservice.offers.adapters.api.mapper.UrlParametersToOrderingCriteriaMapper;
 import com.pz.offersservice.offers.domain.dto.OfferPostDTO;
 import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
 import com.pz.offersservice.offers.domain.entity.Offer;

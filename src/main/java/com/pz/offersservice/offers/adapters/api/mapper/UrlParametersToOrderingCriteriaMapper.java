@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.api.mapper;
+package com.pz.offersservice.offers.adapters.api.mapper;
 
 import com.pz.offersservice.offers.domain.exception.InvalidOrderingCriteriaException;
 import com.pz.offersservice.offers.domain.order.OrderingCriteria;

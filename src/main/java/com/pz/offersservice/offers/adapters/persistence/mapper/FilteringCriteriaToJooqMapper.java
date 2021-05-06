@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.persistence.mapper;
+package com.pz.offersservice.offers.adapters.persistence.mapper;
 
 import com.pz.offersservice.offers.domain.filter.*;
 import org.jooq.Condition;

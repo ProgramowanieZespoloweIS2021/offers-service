@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.api;
+package com.pz.offersservice.offers.adapters.api;
 
 import com.pz.offersservice.offers.domain.exception.InvalidFilteringCriteriaException;
 import com.pz.offersservice.offers.domain.exception.InvalidOfferSpecificationException;

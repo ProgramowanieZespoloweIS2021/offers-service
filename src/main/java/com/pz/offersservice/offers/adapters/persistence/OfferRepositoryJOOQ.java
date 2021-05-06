@@ -1,11 +1,11 @@
-package com.pz.offersservice.offers.persistence;
+package com.pz.offersservice.offers.adapters.persistence;
 
 import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
 import com.pz.offersservice.offers.domain.entity.Offer;
 import com.pz.offersservice.offers.domain.entity.Tag;
 import com.pz.offersservice.offers.domain.OfferRepository;
 import com.pz.offersservice.offers.domain.OffersReportParameters;
-import com.pz.offersservice.offers.persistence.dao.*;
+import com.pz.offersservice.offers.adapters.persistence.dao.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

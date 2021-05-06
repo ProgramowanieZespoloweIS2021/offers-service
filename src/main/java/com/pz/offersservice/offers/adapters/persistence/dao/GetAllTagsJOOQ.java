@@ -1,4 +1,4 @@
-package com.pz.offersservice.offers.persistence.dao;
+package com.pz.offersservice.offers.adapters.persistence.dao;
 
 import com.pz.offersservice.offers.domain.entity.Tag;
 import org.jooq.DSLContext;

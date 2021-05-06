@@ -13,9 +13,13 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>offers-service</name>
     <description>Offers service</description>
+
     <properties>
         <java.version>16</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <revision>0.0.1</revision>
     </properties>
+
     <dependencies>
 
         <dependency>
@@ -59,9 +63,23 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -72,13 +90,9 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
+                            <goal>prepare-agent-integration</goal>
                             <goal>report</goal>
+                            <goal>report-integration</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -1,9 +1,9 @@
-package com.pz.offersservice.offers.persistence.dao;
+package com.pz.offersservice.offers.adapters.persistence.dao;
 
 import com.pz.offersservice.offers.domain.dto.OfferBriefDTO;
 import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
-import com.pz.offersservice.offers.persistence.mapper.FilteringCriteriaToJooqMapper;
-import com.pz.offersservice.offers.persistence.mapper.OrderingCriteriaToJooqMapper;
+import com.pz.offersservice.offers.adapters.persistence.mapper.FilteringCriteriaToJooqMapper;
+import com.pz.offersservice.offers.adapters.persistence.mapper.OrderingCriteriaToJooqMapper;
 import com.pz.offersservice.offers.domain.OffersReportParameters;
 import org.jooq.*;
 import org.simpleflatmapper.jdbc.JdbcMapper;
