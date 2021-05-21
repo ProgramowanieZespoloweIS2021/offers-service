@@ -1,11 +1,9 @@
 # Offers microservice
 
-![CI/CD](https://github.com/ProgramowanieZespoloweIS2021/offers-service/actions/workflows/ci.yml/badge.svg)
-
-[![codecov](https://codecov.io/gh/ProgramowanieZespoloweIS2021/offers-service/branch/main/graph/badge.svg?token=ODDINBT1E9)](https://codecov.io/gh/ProgramowanieZespoloweIS2021/offers-service)
-
-## Overview
-TODO: prepare
+[![CI/CD](https://github.com/ProgramowanieZespoloweIS2021/offers-service/actions/workflows/ci.yml/badge.svg)](https://github.com/ProgramowanieZespoloweIS2021/offers-service/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/ProgramowanieZespoloweIS2021/offers-service/branch/main/graph/badge.svg?token=8ZTZXEZT6F)](https://codecov.io/gh/ProgramowanieZespoloweIS2021/offers-service)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/ProgramowanieZespoloweIS2021/offers-service)](https://github.com/ProgramowanieZespoloweIS2021/offers-service/releases)
+[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/arokasprz100/offers-service?label=dockerhub%20image)](https://hub.docker.com/r/arokasprz100/offers-service)
 
 ## Running
 It is easiest to run this using Docker. Run following commands to create a docker network and containers with 
@@ -33,7 +31,6 @@ docker run --network eszop \
 ```
 
 App will be available on `localhost:8080`
-
 
 
 ## For developers
