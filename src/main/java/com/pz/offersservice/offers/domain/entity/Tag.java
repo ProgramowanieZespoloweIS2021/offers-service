@@ -11,4 +11,22 @@ public class Tag {
     public String getName() {
         return name;
     }
+
+    public TagBuilder builder() {
+        return new TagBuilder();
+    }
+
+    public static class TagBuilder { // TODO: is needed?
+
+        private String name;
+
+        public TagBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Tag build() {
+            return new Tag(name);
+        }
+    }
 }

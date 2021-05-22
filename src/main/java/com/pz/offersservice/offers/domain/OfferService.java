@@ -61,16 +61,16 @@ public class OfferService {
 
         List<Thumbnail> thumbnails = offerPostDto.getThumbnails().stream().map(url -> new Thumbnail(null, url)).collect(Collectors.toList());
         LocalDateTime offerCreationTimestamp = LocalDateTime.now();
-        Offer offer = new Offer(
-                null,
-                offerPostDto.getOwnerId(),
-                offerPostDto.getTitle(),
-                offerPostDto.getDescription(),
-                offerCreationTimestamp,
-                false,
-                offerPostDto.getTiers(),
-                tags,
-                thumbnails);
+        Offer offer = Offer.builder()
+                .ownerId(offerPostDto.getOwnerId())
+                .title(offerPostDto.getTitle())
+                .description(offerPostDto.getDescription())
+                .creationTimestamp(offerCreationTimestamp)
+                .isArchived(false)
+                .tiers(offerPostDto.getTiers())
+                .tags(tags)
+                .thumbnails(thumbnails)
+                .build();
         return offerRepository.add(offer);
     }
 

@@ -1,7 +1,6 @@
-package com.pz.offersservice;
+package com.pz.offersservice.unit;
 
-import com.pz.offersservice.factory.SampleTagsFactory;
-import com.pz.offersservice.factory.SampleTiersFactory;
+import com.pz.offersservice.utils.SampleOfferTestDataProvider;
 import com.pz.offersservice.offers.domain.OfferRepository;
 import com.pz.offersservice.offers.domain.OfferService;
 import com.pz.offersservice.offers.domain.dto.OfferPostDTO;
@@ -14,9 +13,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -31,19 +30,20 @@ public class CreateOfferTest {
     public void setUp() {
         offerRepository = Mockito.mock(OfferRepository.class);
         Mockito.when(offerRepository.add(Mockito.any(Offer.class))).thenReturn(1L);
-        Mockito.when(offerRepository.getTags()).thenReturn(SampleTagsFactory.fromNames("Cpp", "Java", "JavaScript"));
+        Mockito.when(offerRepository.getTags()).thenReturn(SampleOfferTestDataProvider.tagsFromNames("Cpp", "Java", "JavaScript"));
         underTest = new OfferService(offerRepository);
     }
 
     @Test
     public void validOfferIsCreated() {
         List<String> tags = Arrays.asList("Java", "Cpp");
-        List<Tier> tiers = SampleTiersFactory.fromIds(null, null);
-        List<String> thumbnails = Collections.singletonList("https://upload.wikimedia.org/wikipedia/commons/5/5f/Java_short_snippet_code_big_PL.png");
+        List<Tier> tiers = SampleOfferTestDataProvider.sampleValidTiers(null, null, null);
+        List<String> thumbnails = SampleOfferTestDataProvider.sampleValidThumbnailUrls();
         OfferPostDTO offerPostDTO = new OfferPostDTO(1L, "Example offer", "Example description", tags, tiers, thumbnails);
 
-        underTest.addOffer(offerPostDTO);
+        Long createdOfferId = underTest.addOffer(offerPostDTO);
 
+        assertEquals(1L, createdOfferId);
         Mockito.verify(offerRepository, Mockito.times(1)).getTags();
         Mockito.verify(offerRepository, Mockito.times(1)).add(Mockito.any(Offer.class));
     }
@@ -51,8 +51,8 @@ public class CreateOfferTest {
     @Test
     public void createOfferWithInvalidTagFails() {
         List<String> invalidTags = Arrays.asList("Java", "Invalid");
-        List<Tier> tiers = SampleTiersFactory.fromIds(null, null);
-        List<String> thumbnails = Collections.singletonList("https://upload.wikimedia.org/wikipedia/commons/5/5f/Java_short_snippet_code_big_PL.png");
+        List<Tier> tiers = SampleOfferTestDataProvider.sampleValidTiers(null, null, null);
+        List<String> thumbnails = SampleOfferTestDataProvider.sampleValidThumbnailUrls();
         OfferPostDTO offerPostDTO = new OfferPostDTO(1L, "Example offer", "Example description", invalidTags, tiers, thumbnails);
 
         assertThrows(InvalidOfferSpecificationException.class, () -> underTest.addOffer(offerPostDTO));

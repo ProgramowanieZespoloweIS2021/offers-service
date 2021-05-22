@@ -15,7 +15,7 @@ public class Offer {
     private final List<Tag> tags;
     private final List<Thumbnail> thumbnails;
 
-    public Offer(Long id, Long ownerId, String title, String description, LocalDateTime creationTimestamp, Boolean isArchived, List<Tier> tiers, List<Tag> tags, List<Thumbnail> thumbnails) {
+    private Offer(Long id, Long ownerId, String title, String description, LocalDateTime creationTimestamp, Boolean isArchived, List<Tier> tiers, List<Tag> tags, List<Thumbnail> thumbnails) {
         this.id = id;
         this.ownerId = ownerId;
         this.title = title;
@@ -61,5 +61,72 @@ public class Offer {
 
     public List<Thumbnail> getThumbnails() {
         return thumbnails;
+    }
+
+    public static OfferBuilder builder() {
+        return new OfferBuilder();
+    }
+
+    public static class OfferBuilder {
+
+        private Long id;
+        private Long ownerId;
+        private String title;
+        private String description;
+        private LocalDateTime creationTimestamp;
+        private Boolean isArchived;
+        private List<Tier> tiers;
+        private List<Tag> tags;
+        private List<Thumbnail> thumbnails;
+
+        public OfferBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public OfferBuilder ownerId(Long ownerId) {
+            this.ownerId = ownerId;
+            return this;
+        }
+
+        public OfferBuilder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public OfferBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public OfferBuilder creationTimestamp(LocalDateTime creationTimestamp) {
+            this.creationTimestamp = creationTimestamp;
+            return this;
+        }
+
+        public OfferBuilder isArchived(Boolean isArchived) {
+            this.isArchived = isArchived;
+            return this;
+        }
+
+        public OfferBuilder tiers(List<Tier> tiers) {
+            this.tiers = tiers;
+            return this;
+        }
+
+        public OfferBuilder tags(List<Tag> tags) {
+            this.tags = tags;
+            return this;
+        }
+
+        public OfferBuilder thumbnails(List<Thumbnail> thumbnails) {
+            this.thumbnails = thumbnails;
+            return this;
+        }
+
+        public Offer build() {
+            return new Offer(id, ownerId, title, description, creationTimestamp, isArchived, tiers, tags, thumbnails);
+        }
+
     }
 }

@@ -26,6 +26,7 @@ public class GetSingleOfferJOOQ {
         this.create = context;
         this.jdbcMapper = JdbcMapperFactory
                 .newInstance()
+                .useAsm(false)
                 .addKeys("id", "tiers_id", "tags_name", "thumbnails_id")
                 .newMapper(Offer.class);
     }

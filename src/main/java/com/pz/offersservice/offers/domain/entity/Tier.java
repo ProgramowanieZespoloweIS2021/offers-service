@@ -50,4 +50,46 @@ public class Tier {
     public Long getDeliveryTime() {
         return deliveryTime;
     }
+
+    public static TierBuilder builder() {
+        return new TierBuilder();
+    }
+
+    public static class TierBuilder {
+
+        private Long id;
+        private String title;
+        private String description;
+        private BigDecimal price;
+        private Long deliveryTime;
+
+        public TierBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public TierBuilder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public TierBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public TierBuilder price(BigDecimal price) {
+            this.price = price;
+            return this;
+        }
+
+        public TierBuilder deliveryTime(Long deliveryTime) {
+            this.deliveryTime = deliveryTime;
+            return this;
+        }
+
+        public Tier build() {
+            return new Tier(id, title, description, price, deliveryTime);
+        }
+    }
 }
