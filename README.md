@@ -156,7 +156,7 @@ of this new offer should be fetched.
 
 ### Getting offers (filtering, sorting and pagination)
 
-URL: `localhost:8080/offers?<params>`
+URL: `localhost:8080/offers?<params>` (GET method)
 
 For example: `localhost:8080/offers?limit=8&offset=0&order_by=desc:creation_timestamp&min_price=lt:6`
 
@@ -165,11 +165,10 @@ Sorting: `order_by=<direction>:<field>`, where `direction = (asc|desc)` and `fie
 
 Pagination: `limit=<value>&offset=<value>` - limit is 20 by default and offset is 0 by default
 
-Filtering: `<property>=<condition>:<value>`, for example `min_price=lt:6` (will be renamed).
-
-Filtering by tags: `tags=<tag_list>`, for example `tags=java,backend`.
-
-***Note for frontend developers:*** what exactly should be returned here? What sorting and filtering should be implemented?
+Filtering: `<property>=<condition>:<value>`, for example:
+ * `min_price=lt:6` - show offers with minimal price lesser than 6.00 (other conditions: `gt`)
+ * `owner_id=eq:1` - show offers that belong to user with ID equal to 1
+ * `tags=<tag_list>` - filtering by tags, for example `tags=java,backend`
 
 Response example:
 ```json
@@ -275,7 +274,7 @@ Response example:
 
 ### Getting all tags
 
-ULR: `localhost:8080/offers/tags`
+ULR: `localhost:8080/offers/tags` (GET method)
 
 Example response:
 ```json

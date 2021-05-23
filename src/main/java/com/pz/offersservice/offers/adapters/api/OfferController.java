@@ -3,7 +3,7 @@ package com.pz.offersservice.offers.adapters.api;
 import com.pz.offersservice.offers.adapters.api.mapper.UrlParametersToFilteringCriteriaMapper;
 import com.pz.offersservice.offers.adapters.api.mapper.UrlParametersToOrderingCriteriaMapper;
 import com.pz.offersservice.offers.domain.dto.OfferPostDTO;
-import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
+import com.pz.offersservice.offers.domain.dto.OfferReport;
 import com.pz.offersservice.offers.domain.entity.Offer;
 import com.pz.offersservice.offers.domain.filter.FilteringCriteria;
 import com.pz.offersservice.offers.domain.order.OrderingCriteria;
@@ -35,12 +35,12 @@ public class OfferController {
 
 
     @GetMapping
-    public OfferReportDTO getOffers(@RequestParam(defaultValue = "20", name = "limit") Integer pageLimit,
-                                    @RequestParam(defaultValue = "0", name = "offset") Integer pageOffset,
-                                    @RequestParam(defaultValue = "", name = "order_by") List<String> orderBy,
-                                    @RequestParam(defaultValue = "", name = "owner_id") String ownerIdFilter,
-                                    @RequestParam(defaultValue = "", name = "min_price") List<String> minimalPriceFilter,
-                                    @RequestParam(defaultValue = "", name = "tags") List<String> tagsFilter) {
+    public OfferReport getOffers(@RequestParam(defaultValue = "20", name = "limit") Integer pageLimit,
+                                 @RequestParam(defaultValue = "0", name = "offset") Integer pageOffset,
+                                 @RequestParam(defaultValue = "", name = "order_by") List<String> orderBy,
+                                 @RequestParam(defaultValue = "", name = "owner_id") String ownerIdFilter,
+                                 @RequestParam(defaultValue = "", name = "min_price") List<String> minimalPriceFilter,
+                                 @RequestParam(defaultValue = "", name = "tags") List<String> tagsFilter) {
         List<OrderingCriteria> orderingCriteria = urlParametersToOrderingCriteriaMapper.map(orderBy);
         List<FilteringCriteria> filteringCriteria = urlParametersToFilteringCriteriaMapper.map(ownerIdFilter, minimalPriceFilter, tagsFilter);
         return offerService.getOffers(pageLimit, pageOffset, orderingCriteria, filteringCriteria);

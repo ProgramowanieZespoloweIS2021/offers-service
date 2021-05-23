@@ -1,6 +1,6 @@
 package com.pz.offersservice.offers.domain;
 
-import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
+import com.pz.offersservice.offers.domain.dto.OfferReport;
 import com.pz.offersservice.offers.domain.entity.Offer;
 import com.pz.offersservice.offers.domain.entity.Tag;
 
@@ -11,7 +11,7 @@ public interface OfferRepository {
 
     Optional<Offer> get(Long offerId);
 
-    OfferReportDTO get(OffersReportParameters offersReportParameters);
+    OfferReport get(OffersReportParameters offersReportParameters);
 
     Long add(Offer offer);
 

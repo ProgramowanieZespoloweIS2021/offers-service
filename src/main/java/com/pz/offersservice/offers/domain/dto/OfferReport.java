@@ -2,12 +2,12 @@ package com.pz.offersservice.offers.domain.dto;
 
 import java.util.List;
 
-public class OfferReportDTO {
+public class OfferReport {
 
     private final Integer totalNumberOfOffers;
-    private final List<OfferBriefDTO> offers;
+    private final List<OfferBrief> offers;
 
-    public OfferReportDTO(Integer totalNumberOfOffers, List<OfferBriefDTO> offers) {
+    public OfferReport(Integer totalNumberOfOffers, List<OfferBrief> offers) {
         this.totalNumberOfOffers = totalNumberOfOffers;
         this.offers = offers;
     }
@@ -16,7 +16,7 @@ public class OfferReportDTO {
         return totalNumberOfOffers;
     }
 
-    public List<OfferBriefDTO> getOffers() {
+    public List<OfferBrief> getOffers() {
         return offers;
     }
 }

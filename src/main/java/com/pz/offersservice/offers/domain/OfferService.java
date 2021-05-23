@@ -1,6 +1,6 @@
 package com.pz.offersservice.offers.domain;
 
-import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
+import com.pz.offersservice.offers.domain.dto.OfferReport;
 import com.pz.offersservice.offers.domain.entity.Offer;
 import com.pz.offersservice.offers.domain.entity.Thumbnail;
 import com.pz.offersservice.offers.domain.dto.OfferPostDTO;
@@ -30,7 +30,7 @@ public class OfferService {
     }
 
 
-    public OfferReportDTO getOffers(Integer pageSize, Integer pageOffset, List<OrderingCriteria> orderingCriteria, List<FilteringCriteria> filteringCriteria) {
+    public OfferReport getOffers(Integer pageSize, Integer pageOffset, List<OrderingCriteria> orderingCriteria, List<FilteringCriteria> filteringCriteria) {
         filteringCriteria.add(new ArchivedFilter(FilteringType.EQUAL, false));
         OffersReportParameters offersReportParameters = new OffersReportParameters(pageSize, pageOffset, orderingCriteria, filteringCriteria);
         return offerRepository.get(offersReportParameters);

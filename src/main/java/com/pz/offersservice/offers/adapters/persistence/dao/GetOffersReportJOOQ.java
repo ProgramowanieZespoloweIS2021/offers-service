@@ -1,7 +1,7 @@
 package com.pz.offersservice.offers.adapters.persistence.dao;
 
-import com.pz.offersservice.offers.domain.dto.OfferBriefDTO;
-import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
+import com.pz.offersservice.offers.domain.dto.OfferBrief;
+import com.pz.offersservice.offers.domain.dto.OfferReport;
 import com.pz.offersservice.offers.adapters.persistence.mapper.FilteringCriteriaToJooqMapper;
 import com.pz.offersservice.offers.adapters.persistence.mapper.OrderingCriteriaToJooqMapper;
 import com.pz.offersservice.offers.domain.OffersReportParameters;
@@ -25,7 +25,7 @@ public class GetOffersReportJOOQ {
     private final OrderingCriteriaToJooqMapper orderingCriteriaToJooqMapper;
     private final FilteringCriteriaToJooqMapper filteringCriteriaToJooqMapper;
     private final DSLContext create;
-    private final JdbcMapper<OfferBriefDTO> jdbcMapper;
+    private final JdbcMapper<OfferBrief> jdbcMapper;
 
 
     public GetOffersReportJOOQ(OrderingCriteriaToJooqMapper orderingCriteriaToJooqMapper,
@@ -37,12 +37,13 @@ public class GetOffersReportJOOQ {
         this.jdbcMapper = JdbcMapperFactory
                 .newInstance()
                 .unorderedJoin()
+                .useAsm(false)
                 .addKeys("id", "tags_name", "thumbnails_id")
-                .newMapper(OfferBriefDTO.class);
+                .newMapper(OfferBrief.class);
     }
 
 
-    public OfferReportDTO execute(OffersReportParameters offersReportParameters) {
+    public OfferReport execute(OffersReportParameters offersReportParameters) {
         List<SortField<?>> sortFields = orderingCriteriaToJooqMapper.convert(offersReportParameters.getOrderingCriteria());
         Condition whereClause = filteringCriteriaToJooqMapper.convert(offersReportParameters.getFilteringCriteria());
         return createOffersReport(
@@ -53,13 +54,13 @@ public class GetOffersReportJOOQ {
     }
 
 
-    private OfferReportDTO createOffersReport(Integer limit, Integer offset, List<SortField<?>> sortClause, Condition whereClause) {
+    private OfferReport createOffersReport(Integer limit, Integer offset, List<SortField<?>> sortClause, Condition whereClause) {
         SelectSeekStepN<?> filteredAndSortedSubQuery = createSubQuery(sortClause, whereClause);
         Integer totalCount = create.fetchCount(filteredAndSortedSubQuery);
         Table<?> test2 = filteredAndSortedSubQuery.limit(limit).offset(offset).asTable("sub_query");
         ResultQuery<?> query = createJoinQuery(sortClause, test2);
-        List<OfferBriefDTO> offers = mapQueryIntoList(query);
-        return new OfferReportDTO(totalCount, offers);
+        List<OfferBrief> offers = mapQueryIntoList(query);
+        return new OfferReport(totalCount, offers);
     }
 
 
@@ -84,8 +85,8 @@ public class GetOffersReportJOOQ {
         return create.select(
                 field("sub_query.id").as("id"),
                 field("sub_query.owner_id").as("owner_id"),
-                field("sub_query.title").as("name"), // TODO: rename to title
-                field("sub_query.lowest_price").as("minimal_price"), // TODO: rename
+                field("sub_query.title").as("name"),
+                field("sub_query.lowest_price").as("minimal_price"),
                 field("offers_tags.tag_name").as("tags_name"),
                 field("thumbnails.id").as("thumbnails_id"),
                 field("thumbnails.url").as("thumbnails_url")
@@ -97,7 +98,7 @@ public class GetOffersReportJOOQ {
     }
 
 
-    private List<OfferBriefDTO> mapQueryIntoList(ResultQuery<?> query) {
+    private List<OfferBrief> mapQueryIntoList(ResultQuery<?> query) {
         try {
             ResultSet rs = query.fetchResultSet();
             return jdbcMapper.stream(rs).collect(Collectors.toList());

@@ -1,6 +1,6 @@
 package com.pz.offersservice.offers.adapters.persistence;
 
-import com.pz.offersservice.offers.domain.dto.OfferReportDTO;
+import com.pz.offersservice.offers.domain.dto.OfferReport;
 import com.pz.offersservice.offers.domain.entity.Offer;
 import com.pz.offersservice.offers.domain.entity.Tag;
 import com.pz.offersservice.offers.domain.OfferRepository;
@@ -38,7 +38,7 @@ public class OfferRepositoryJOOQ implements OfferRepository {
     }
 
     @Override
-    public OfferReportDTO get(OffersReportParameters offersReportParameters) {
+    public OfferReport get(OffersReportParameters offersReportParameters) {
         return getOffersReport.execute(offersReportParameters);
     }
 
