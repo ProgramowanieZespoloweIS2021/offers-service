@@ -47,7 +47,7 @@ public class BasicOfferOperationsIT {
                     "title": "Example offer 1",
                     "description": "Example description",
                     "ownerId": 1,
-                    "tags": ["cpp", "java", "backend"],
+                    "tags": ["creation", "webapp", "business"],
                     "thumbnails": ["https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"],
                     "tiers": [
                         {
@@ -113,7 +113,7 @@ public class BasicOfferOperationsIT {
                     "title": "Example offer 1",
                     "description": "Example description",
                     "ownerId": 1,
-                    "tags": ["cpp", "java", "backend"],
+                    "tags": ["creation", "webapp", "business"],
                     "thumbnails": ["https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"],
                     "tiers": [
                         {
@@ -137,7 +137,7 @@ public class BasicOfferOperationsIT {
                     "title": "Example edited offer title",
                     "description": "Example edited description",
                     "ownerId": 1,
-                    "tags": ["cpp", "java", "backend"],
+                    "tags": ["creation", "webapp", "business"],
                     "thumbnails": ["https://upload.wikimedia.org/wikipedia/commons/8/87/W3sDesign_Builder_Design_Pattern_UML.jpg"],
                     "tiers": [
                         {

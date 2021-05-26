@@ -100,7 +100,7 @@ public class OfferQueryIT {
 
         // send request to acquire all offers with tags backend and java
         mockMvc
-                .perform(get("/offers?limit=8&offset=0&order_by=asc:creation_timestamp&tags=backend,java"))
+                .perform(get("/offers?limit=8&offset=0&order_by=asc:creation_timestamp&tags=webapp,business"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.totalNumberOfOffers").value(2))
                 .andExpect(jsonPath("$.offers[0].id").value(firstOfferId))
@@ -125,7 +125,7 @@ public class OfferQueryIT {
                         "title": "Offer 1",
                         "description": "Offer 1 description",
                         "ownerId": 1,
-                        "tags": ["python", "java", "backend"],
+                        "tags": ["creation", "webapp", "business"],
                         "thumbnails": [
                             "https://en.wikipedia.org/wiki/Google_logo#/media/File:First-google-logo.gif",
                             "https://en.wikipedia.org/wiki/Google_logo#/media/File:Google_2015_logo.svg"
@@ -155,7 +155,7 @@ public class OfferQueryIT {
                         "title": "Offer 2",
                         "description": "Offer 2 description",
                         "ownerId": 2,
-                        "tags": ["html", "css", "frontend"],
+                        "tags": ["modification", "website", "game"],
                         "thumbnails": [
                             "https://en.wikipedia.org/wiki/Google_logo#/media/File:First-google-logo.gif",
                             "https://en.wikipedia.org/wiki/Google_logo#/media/File:Google_2015_logo.svg"
@@ -179,7 +179,7 @@ public class OfferQueryIT {
                         "title": "Offer 3",
                         "description": "Offer 3 description",
                         "ownerId": 1,
-                        "tags": ["backend", "java"],
+                        "tags": ["webapp", "business"],
                         "thumbnails": [
                             "https://en.wikipedia.org/wiki/Google_logo#/media/File:First-google-logo.gif",
                             "https://en.wikipedia.org/wiki/Google_logo#/media/File:Google_2015_logo.svg"

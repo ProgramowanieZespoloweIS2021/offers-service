@@ -280,16 +280,46 @@ Example response:
 ```json
 [
     {
-        "name": "java"
+        "name": "creation"
     },
     {
-        "name": "javascript"
+        "name": "modification"
     },
     {
-        "name": "c#"
+        "name": "design"
     },
     {
-        "name": "react"
+        "name": "website"
+    },
+    {
+        "name": "webapp"
+    },
+    {
+        "name": "mobile"
+    },
+    {
+        "name": "desktop"
+    },
+    {
+        "name": "embedded"
+    },
+    {
+        "name": "database"
+    },
+    {
+        "name": "user experience"
+    },
+    {
+        "name": "game"
+    },
+    {
+        "name": "business"
+    },
+    {
+        "name": "data analysis"
+    },
+    {
+        "name": "high performance"
     }
 ]
 ```
