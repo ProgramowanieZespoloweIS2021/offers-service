@@ -1,10 +1,4 @@
-DROP TABLE IF EXISTS offers_tags;
-DROP TABLE IF EXISTS thumbnails;
-DROP TABLE IF EXISTS tiers;
-DROP TABLE IF EXISTS tags;
-DROP TABLE IF EXISTS offers;
-
-CREATE TABLE offers (
+CREATE TABLE IF NOT EXISTS offers (
     id SERIAL PRIMARY KEY,
     owner_id INTEGER,
     title TEXT,
@@ -13,11 +7,11 @@ CREATE TABLE offers (
     is_archived BOOLEAN
 );
 
-CREATE TABLE tags (
+CREATE TABLE IF NOT EXISTS tags (
     name TEXT PRIMARY KEY
 );
 
-CREATE TABLE offers_tags (
+CREATE TABLE IF NOT EXISTS offers_tags (
     offer_id SERIAL NOT NULL,
     tag_name TEXT NOT NULL,
     PRIMARY KEY(offer_id, tag_name),
@@ -25,7 +19,7 @@ CREATE TABLE offers_tags (
     CONSTRAINT FK_TAG FOREIGN KEY (tag_name) REFERENCES tags(name)
 );
 
-CREATE TABLE tiers (
+CREATE TABLE IF NOT EXISTS tiers (
     id SERIAL PRIMARY KEY,
     offer_id SERIAL NOT NULL,
     title TEXT,
@@ -35,7 +29,7 @@ CREATE TABLE tiers (
     CONSTRAINT FK_OFFER FOREIGN KEY (offer_id) REFERENCES offers(id)
 );
 
-CREATE TABLE thumbnails (
+CREATE TABLE IF NOT EXISTS thumbnails (
     id SERIAL PRIMARY KEY,
     offer_id SERIAL NOT NULL,
     url TEXT NOT NULL,

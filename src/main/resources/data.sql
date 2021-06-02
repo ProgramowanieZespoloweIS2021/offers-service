@@ -13,4 +13,4 @@ INSERT INTO tags VALUES ('creation'),
                         ('game'),
                         ('business'),
                         ('data analysis'),
-                        ('high performance');
+                        ('high performance') ON CONFLICT DO NOTHING;
